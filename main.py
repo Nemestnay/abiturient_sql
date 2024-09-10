@@ -72,6 +72,14 @@ itog9.columns = ['itog']
 itog9 = itog9.reset_index()
 itog9 = pd.merge(pd.merge(itog9, program, on='program_id', how='left'), enrollee, on='enrollee_id', how='left')[['name_program', 'name_enrollee', 'itog']]
 itog9 = itog9.sort_values(['name_program', 'itog'], ascending=[True, False])
-print(itog9)
-itog9.to_csv('itog9_results.csv', index=False)
+#print(itog9)
+#itog9.to_csv('itog9_results.csv', index=False)
 
+itog10 = pd.merge(program_subject, program_enrollee, on='program_id')
+itog10 = pd.merge(itog10, enrollee_subject, on=['enrollee_id', 'subject_id'])
+itog10 = pd.merge(itog10, program, on='program_id', how='left')
+itog10 = pd.merge(itog10, enrollee, on='enrollee_id', how='left')
+itog10 = itog10[itog10['min_result'] >= itog10['result']][['name_program', 'name_enrollee']]
+itog10 = itog10.sort_values(['name_program', 'name_enrollee'])
+print(itog10)
+itog10.to_csv('itog10_results.csv', index=False)
